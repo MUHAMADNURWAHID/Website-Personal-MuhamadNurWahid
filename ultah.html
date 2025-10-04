@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Happy Birthday My Love</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "Lora", sans-serif;
+            background: linear-gradient(135deg, #fce3e4, #f8c9d4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            color: #4A4A4A;
+        }
+
+        /* --- Tampilan Halaman Pembuka --- */
+        .start-screen {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #fce3e4, #f8c9d4);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            transition: opacity 1s ease;
+        }
+
+        .start-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 48px;
+            font-weight: bold;
+            color: #8B0000;
+            margin-bottom: 20px;
+            text-align: center;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+            animation: blinkTitle 1.5s infinite;
+        }
+
+        @keyframes blinkTitle {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        .gift-box {
+            font-size: 100px;
+            cursor: pointer;
+            animation: bounce 1s infinite alternate;
+            position: relative;
+            filter: drop-shadow(0 0 10px #FFD700);
+        }
+
+        @keyframes bounce {
+            from { transform: translateY(0); }
+            to { transform: translateY(-20px); }
+        }
+
+        .start-text {
+            margin-top: 20px;
+            font-size: 24px;
+            color: #8B0000;
+            font-weight: bold;
+            animation: blink 1.2s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* --- Efek Ledakan --- */
+        .explosion {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            pointer-events: none;
+        }
+
+        .explosion span {
+            position: absolute;
+            font-size: 30px;
+            color: #FF69B4;
+            animation: explode 1s forwards;
+            filter: drop-shadow(0 0 5px #FFD700);
+        }
+
+        @keyframes explode {
+            from { transform: translate(0,0) scale(1); opacity: 1; }
+            to { transform: translate(var(--x), var(--y)) scale(0.5); opacity: 0; }
+        }
+
+        /* --- Tampilan Slideshow --- */
+        .slideshow {
+            position: relative;
+            width: 600px;
+            height: 650px;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(3px);
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            display: none;
+            z-index: 2;
+        }
+
+        .slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            box-sizing: border-box;
+            background: transparent;
+        }
+
+        .slide-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .photo-duo {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .photo-duo img {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #FFFFFF;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .photo-duo img:hover {
+            transform: scale(1.05);
+        }
+
+        /* --- Gaya Baru untuk Foto Kotak dengan Sudut Tumpul --- */
+        .photo-pyramid img,
+        .photo-diamond img {
+            width: 180px;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 20px; /* Sudut tumpul */
+            border: 3px solid #FFFFFF;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+
+        /* --- Tampilan Piramid --- */
+        .photo-pyramid {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .pyramid-base {
+            display: flex;
+            gap: 15px;
+        }
+
+        /* --- Tampilan Diamond --- */
+        .photo-diamond {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            justify-items: center;
+            align-items: center;
+        }
+
+        .slide h1 {
+            font-family: 'Playfair Display', serif;
+            color: #8B0000;
+            margin: 20px 0 10px;
+            font-size: 32px;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .slide p {
+            font-family: 'Lora', serif;
+            color: #4A4A4A;
+            font-size: 18px;
+            text-shadow: 1px 1px 3px rgba(255,255,255,0.4);
+        }
+
+        .slide small {
+            color: #4A4A4A;
+        }
+
+        .slide.active {
+            opacity: 1;
+            z-index: 1;
+        }
+
+        /* --- Animasi Background --- */
+        .hearts, .balloons, .butterflies, .stars, .gifts {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .heart {
+            position: absolute;
+            color: rgba(255,105,180,0.6);
+            font-size: 25px;
+            animation: floatUp 5s linear infinite;
+            filter: drop-shadow(0 0 5px #FF69B4);
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) scale(0.5); opacity: 1; }
+            100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+        }
+
+        .balloon {
+            position: absolute;
+            color: #FF69B4;
+            font-size: 40px;
+            animation: floatBalloon linear infinite;
+            z-index: 0;
+        }
+
+        @keyframes floatBalloon {
+            0% { transform: translateY(100vh) scale(0.5); opacity: 0.8; }
+            100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+        }
+
+        .butterfly {
+            position: absolute;
+            color: #FFD700;
+            font-size: 30px;
+            animation: flyButterfly linear infinite;
+            z-index: 0;
+        }
+
+        @keyframes flyButterfly {
+            0% { transform: translate(0, 0) scale(0.8); }
+            25% { transform: translate(100px, -50px) scale(1.2); }
+            50% { transform: translate(200px, -150px) scale(1); }
+            75% { transform: translate(150px, -200px) scale(0.9); }
+            100% { transform: translate(0, 0) scale(0.8); }
+        }
+
+        .star {
+            position: absolute;
+            color: #FFD700;
+            font-size: 16px;
+            animation: twinkle 2s linear infinite;
+            z-index: 0;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.5); opacity: 0.5; }
+        }
+
+        .floating-gift {
+            position: absolute;
+            font-size: 30px;
+            color: #FFD700;
+            animation: floatUp 7s linear infinite;
+            filter: drop-shadow(0 0 5px rgba(255,215,0,0.5));
+        }
+    </style>
+</head>
+<body>
+    <div class="start-screen" id="startScreen">
+        <div class="start-title">HAPPY BIRTHDAY SAYANGGG AKUU!!! 🎉💕</div>
+        <div class="gift-box" id="giftBox">🎁</div>
+        <div class="start-text">Silahkan Tekan Disini</div>
+    </div>
+
+    <div class="hearts"></div>
+    <div class="balloons"></div>
+    <div class="butterflies"></div>
+    <div class="stars"></div>
+    <div class="gifts"></div>
+    
+    <div class="slideshow" id="slideshow">
+        <div class="slide active">
+            <div class="slide-content">
+                <h1>Happy Birthday, Sayangku🎂❤️💖</h1>
+                <div class="photo-duo">
+                    <img src="images/photo14.jpg" alt="Foto 1">
+                    <img src="images/photo5.jpg" alt="Foto 2">
+                </div>
+                <p style="color: #E66465;">CIEE YANG UDAH TUAAA HEHEHE💖</p>
+                <p>Hari ini adalah hari yang istimewa, hari di mana kamu lahir ke dunia, aku bersyukur karena pada hari ini Tuhan menghadirkan seseorang yang begitu berharga untukku🤍🤍</p>
+            </div>
+        </div>
+        <div class="slide">
+            <div class="slide-content">
+                <h1>Aku Ingin Kamu Tahu Betapa Berharganya Dirimu💖✨</h1>
+                <div class="photo-duo">
+                    <img src="images/photo4.jpg" alt="Foto 3">
+                    <img src="images/photo7.jpg" alt="Foto 4">
+                </div>
+                <p>Kamu bukan hanya sekadar pasangan, tapi juga sahabat terbaik, tempatku bercerita, dan rumah untukku🫶🏻</p>
+            </div>
+        </div>
+        <div class="slide">
+            <div class="slide-content">
+                <h1>Doa Terbaik Untuk Kamu🙏🏻</h1>
+                <div class="photo-duo">
+                    <img src="images/photo6.jpg" alt="Foto 5">
+                    <img src="images/photo25.jpg" alt="Foto 6">
+                </div>
+                <p>Semoga panjang umur, sehat selalu, dimudahkan rezekinya, dan dimudahkan segala urusan kamu, aamiin🤲🏻❤️</p>
+            </div>
+        </div>
+        <div class="slide">
+            <div class="slide-content">
+                <h1>Terimakasih Sayanggg🥰</h1>
+                <div class="photo-duo">
+                    <img src="images/photo9.jpg" alt="Foto 7">
+                    <img src="images/photo24.jpg" alt="Foto 8">
+                </div>
+                <p>Terimakasih sayangku karena kamu selalu sabar menghadapi aku, terima kasih karena kamu tetap ada, walau aku jauh dari sempurna, dan terima kasih karena cintamu selalu tulus untukku🫶🏻💗</p>
+            </div>
+        </div>
+        <div class="slide">
+            <div class="slide-content">
+                <h1>Selalu Bahagia Cantikkk🌸</h1>
+                <div class="photo-duo">
+                    <img src="images/photo13.jpg" alt="Foto 9">
+                    <img src="images/photo16.jpg" alt="Foto 10">
+                </div>
+                <p>Aku ingin melihat senyummu setiap hari, karena itu kebahagiaanku🥰</p>
+            </div>
+        </div>
+        <div class="slide">
+            <div class="slide-content">
+                <h1>Semoga Sukses Cintaaa💼</h1>
+                <div class="photo-duo">
+                    <img src="images/photo27.jpg" alt="Foto 11">
+                    <img src="images/photo18.jpg" alt="Foto 12">
+                </div>
+                <p>Semoga setiap langkahmu dipenuhi kesuksesan dan keberuntungan, aamiin🤲🏻❤️</p>
+            </div>
+        </div>
+        <div class="slide">
+            <div class="slide-content">
+                <h1>Aku Berjanji Akan Terus Ada Disisi Kamu💕</h1>
+                <div class="photo-duo">
+                    <img src="images/photo3.jpg" alt="Foto 13">
+                    <img src="images/photo2.jpg" alt="Foto 14">
+                </div>
+                <p>Aku ingin merayakan ulang tahunmu, tidak hanya hari ini, tapi juga ulang tahunmu yang berikutnya, sampai kita menua bersama🥰💖</p>
+            </div>
+        </div>
+        <div class="slide">
+            <div class="slide-content">
+                <h1>Semoga Hubungan Kita Selalu Dikelilingi Doa Terbaik🫂🥰</h1>
+                <div class="photo-duo">
+                    <img src="images/photo1.jpg" alt="Foto 15">
+                    <img src="images/photo19.jpg" alt="Foto 16">
+                </div>
+                <p>Semoga cinta kita semakin kuat, semakin indah, dan tidak pernah pudar walau waktu terus berjalan🫰🏻</p>
+            </div>
+        </div>
+        <div class="slide">
+            <div class="slide-content">
+                <h1>Kenangan Indah Bersama🥰📸</h1>
+                <div class="photo-pyramid">
+                    <img src="images/photo11.jpg" alt="Foto Piramid 1">
+                    <div class="pyramid-base">
+                        <img src="images/photo21.jpg" alt="Foto Piramid 2">
+                        <img src="images/photo23.jpg" alt="Foto Piramid 3">
+                    </div>
+                </div>
+                <p>Momen-momen yang kita lewati adalah harta yang paling berharga😍</p>
+            </div>
+        </div>
+        <div class="slide">
+            <div class="slide-content">
+                <h1>Masa Depan Bersama💖🥂</h1>
+                <div class="photo-diamond">
+                    <img src="images/photo28.jpg" alt="Foto Diamond 1">
+                    <img src="images/photo26.jpg" alt="Foto Diamond 2">
+                    <img src="images/photo22.jpg" alt="Foto Diamond 3">
+                    <img src="images/photo29.jpg" alt="Foto Diamond 4">
+                </div>
+                <p>Mari kita ukir lebih banyak kenangan indah di masa yang akan datang💗💗</p>
+            </div>
+        </div>
+        <div class="slide">
+            <div class="slide-content">
+                <h1>Always Together🧑🏻‍❤‍🧑🏻‍</h1>
+                <div class="photo-duo">
+                    <img src="images/photo12.jpg" alt="Foto 17">
+                    <img src="images/photo10.jpg" alt="Foto 1">
+                </div>
+                <p>Aku ingin kita selalu bersama, hari ini, besok, dan selamanya🫂🥰</p>
+            </div>
+        </div>
+        <div class="slide">
+            <div class="slide-content">
+                <h1>I LOVE YOU CANTIKKK❤️🥰</h1>
+                <div class="photo-duo">
+                    <img src="images/photo27.jpg" alt="Foto 2">
+                    <img src="images/photo5.jpg" alt="Foto 3">
+                </div>
+                <p>Sekali lagi SELAMAT ULANG TAHUN YAAH SAYANGGG AKUUU❤️💖💖.</p>
+                <small style="color: #8B0000; text-shadow: none;">"Maaf yaah cayanggg kalo hasilnya kurang sempurna hehe😁".</small>
+            </div>
+        </div>
+    </div>
+
+    <audio id="bg-music" loop>
+        <source src="/music/Music.mp3" type="audio/mpeg">
+        Browser kamu tidak mendukung pemutar musik.
+    </audio>
+    <audio id="pop-sound">
+        <source src="/music/Music2.wav" type="audio/mpeg">
+    </audio>
+
+    <script>
+        /* JavaScript */
+        let slides = document.querySelectorAll(".slide");
+        let current = 0;
+        let slideInterval;
+        const defaultSlideDuration = 8000;
+        const photoGridDuration = 12000;
+
+        function showNextSlide() {
+            slides[current].classList.remove("active");
+            current = (current + 1) % slides.length;
+            slides[current].classList.add("active");
+            resetSlideInterval();
+        }
+
+        function resetSlideInterval() {
+            clearInterval(slideInterval);
+            const currentSlide = slides[current];
+            const isPhotoGrid = currentSlide.querySelector('.photo-pyramid, .photo-diamond');
+            
+            if (isPhotoGrid) {
+                slideInterval = setInterval(showNextSlide, photoGridDuration);
+            } else {
+                slideInterval = setInterval(showNextSlide, defaultSlideDuration);
+            }
+        }
+
+        document.getElementById("giftBox").addEventListener("click", () => {
+            let explosion = document.createElement("div");
+            explosion.classList.add("explosion");
+            document.body.appendChild(explosion);
+
+            document.getElementById("pop-sound").play();
+
+            // Atur posisi ledakan di tengah gift box
+            const giftBox = document.getElementById("giftBox");
+            const rect = giftBox.getBoundingClientRect();
+            explosion.style.top = `${rect.top + rect.height / 2}px`;
+            explosion.style.left = `${rect.left + rect.width / 2}px`;
+
+            for (let i = 0; i < 20; i++) {
+                let span = document.createElement("span");
+                span.innerHTML = "💖";
+                let angle = Math.random() * 2 * Math.PI;
+                let distance = 100 + Math.random() * 100;
+                span.style.setProperty("--x", `${Math.cos(angle) * distance}px`);
+                span.style.setProperty("--y", `${Math.sin(angle) * distance}px`);
+                explosion.appendChild(span);
+            }
+
+            setTimeout(() => {
+                document.getElementById("startScreen").style.opacity = "0";
+                setTimeout(() => {
+                    document.getElementById("startScreen").style.display = "none";
+                    document.getElementById("slideshow").style.display = "block";
+                    document.getElementById("bg-music").play();
+                    
+                    resetSlideInterval();
+
+                    // Mulai efek background
+                    setInterval(createHeart, 500);
+                    setInterval(createBalloon, 2000);
+                    setInterval(createButterfly, 5000);
+                    setInterval(createStar, 300);
+                    setInterval(createFloatingGift, 1500);
+                    
+                }, 1000); // Tunggu sampai transisi opacity selesai
+            }, 800);
+
+            setTimeout(() => { explosion.remove(); }, 2000);
+        });
+
+        const heartsContainer = document.querySelector('.hearts');
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '💖';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.fontSize = Math.random() * 20 + 20 + 'px';
+            heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+            heartsContainer.appendChild(heart);
+            setTimeout(() => { heart.remove(); }, 6000);
+        }
+
+        const balloonsContainer = document.querySelector('.balloons');
+        function createBalloon() {
+            const balloon = document.createElement('div');
+            balloon.classList.add('balloon');
+            balloon.innerHTML = '🎈';
+            balloon.style.left = Math.random() * 100 + 'vw';
+            balloon.style.animationDuration = (Math.random() * 5 + 7) + 's';
+            balloonsContainer.appendChild(balloon);
+            setTimeout(() => { balloon.remove(); }, 12000);
+        }
+
+        const butterfliesContainer = document.querySelector('.butterflies');
+        function createButterfly() {
+            const butterfly = document.createElement('div');
+            butterfly.classList.add('butterfly');
+            butterfly.innerHTML = '🦋';
+            butterfly.style.left = Math.random() * 100 + 'vw';
+            butterfly.style.animationDuration = (Math.random() * 5 + 10) + 's';
+            butterfliesContainer.appendChild(butterfly);
+            setTimeout(() => { butterfly.remove(); }, 15000);
+        }
+
+        const starsContainer = document.querySelector('.stars');
+        function createStar() {
+            const star = document.createElement('div');
+            star.classList.add('star');
+            star.innerHTML = '⭐';
+            star.style.top = Math.random() * 100 + 'vh';
+            star.style.left = Math.random() * 100 + 'vw';
+            star.style.animationDuration = (Math.random() * 1.5 + 1.5) + 's';
+            starsContainer.appendChild(star);
+            setTimeout(() => { star.remove(); }, 3000);
+        }
+
+        const giftsContainer = document.querySelector('.gifts');
+        function createFloatingGift() {
+            const gift = document.createElement('div');
+            gift.classList.add('floating-gift');
+            gift.innerHTML = '🎁';
+            gift.style.left = Math.random() * 100 + 'vw';
+            gift.style.animationDuration = (Math.random() * 4 + 5) + 's';
+            giftsContainer.appendChild(gift);
+            setTimeout(() => { gift.remove(); }, 7000);
+        }
+
+        // Pastikan slide pertama aktif saat dimuat (walaupun sudah di HTML, ini memastikan)
+        if (slides.length > 0) {
+            slides[0].classList.add("active");
+        }
+    </script>
+</body>
+</html>
